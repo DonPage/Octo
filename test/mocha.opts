@@ -1,0 +1,7 @@
+--timeout 300000
+--ui bdd
+--full-trace
+--recursive
+--es_staging
+--no-exit
+--async-only
