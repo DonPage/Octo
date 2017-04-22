@@ -36,13 +36,12 @@ test.describe('Octo: Searching something on duckduckgo', () => {
 
   test.it('El, Click, Sleep', async () => {
     await driver.el('#search_button_homepage').click();
-    await driver.sleep(5000);
     return;
   });
 
-  test.it('Click', async () => {
+  test.it('Click, El, waitForDisplayed', async () => {
     await driver.click('div[data-domain="purplerockscissors.com"]');
-    await driver.sleep(5000);
+    await driver.el('body.loaded').waitForDisplayed();
     return;
   });
 
