@@ -6,7 +6,7 @@ export declare class Octo {
     go(url: string): Promise<void>;
     el(selector: string): {
         _selector: string;
-        click: () => Promise<any>;
+        click: () => Promise<void>;
         type: (input: string, throttle?: number) => Promise<void>;
         getText: () => Promise<string>;
     };
@@ -15,6 +15,7 @@ export declare class Octo {
     sleep(ms?: number): Promise<void>;
     type(selector: string, input: string, throttle?: number): Promise<void>;
     getText(selector: string): Promise<string>;
+    pageTitle(): Promise<string>;
     private getElement(selector);
     private wrapElement(selector);
 }

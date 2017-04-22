@@ -51,6 +51,10 @@ export class Octo {
     return await el.getText();
   }
 
+  public async pageTitle(): Promise<string> {
+    return await this._core.getTitle();
+  }
+
   private async getElement(selector: string): Promise<WebElement> {
     return await this._core.findElement(By.css(selector));
   }
@@ -58,10 +62,7 @@ export class Octo {
   private wrapElement(selector: string) {
     return {
       _selector: selector,
-      click: async () => {
-        await this.click(selector);
-        return this.wrapElement(selector);
-      },
+      click: async () => await this.click(selector),
       type: async (input: string, throttle = 50) => await this.type(selector, input, throttle),
       getText: async () => await this.getText(selector)
     };
