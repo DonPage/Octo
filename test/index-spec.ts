@@ -39,9 +39,14 @@ test.describe('Octo: Searching something on duckduckgo', () => {
     return;
   });
 
-  test.it('Click, El, waitForDisplayed', async () => {
+  test.it('Click, El, WaitForDisplayed', async () => {
     await driver.click('div[data-domain="purplerockscissors.com"]');
     await driver.el('body.loaded').waitForDisplayed();
+    return;
+  });
+
+  test.it('JumpTo', async () => {
+    await driver.jumpTo('section.instafeed');
     return;
   });
 

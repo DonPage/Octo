@@ -10,6 +10,7 @@ export declare class Octo {
         type: (input: string, throttle?: number) => Promise<void>;
         getText: () => Promise<string>;
         waitForDisplayed: () => Promise<void>;
+        jumpTo: () => Promise<void>;
     };
     click(selector: string): Promise<void>;
     quit(): Promise<void>;
@@ -17,6 +18,7 @@ export declare class Octo {
     type(selector: string, input: string, throttle?: number): Promise<void>;
     getText(selector: string): Promise<string>;
     pageTitle(): Promise<string>;
+    jumpTo(selector: string): Promise<void>;
     waitForDisplayed(selector: string): Promise<void>;
     private getElement(selector);
     private waitForVisible(selector, duration?);

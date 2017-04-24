@@ -56,6 +56,17 @@ export class Octo {
   }
 
   @Retry(3)
+  public async jumpTo(selector: string): Promise<void> {
+    // tslint:disable-next-line
+    await this._core.executeScript(function(selector: string) {
+      // tslint:disable-next-line
+      var el: any = document.querySelector(selector);
+      el.scrollIntoView(true);
+    }, selector);
+    return;
+  }
+
+  @Retry(3)
   public async waitForDisplayed(selector: string): Promise<void> {
     await this.waitForLocated(selector);
     await this.waitForVisible(selector);
@@ -85,7 +96,8 @@ export class Octo {
       click: async () => await this.click(selector),
       type: async (input: string, throttle = 50) => await this.type(selector, input, throttle),
       getText: async () => await this.getText(selector),
-      waitForDisplayed: async () => await this.waitForDisplayed(selector)
+      waitForDisplayed: async () => await this.waitForDisplayed(selector),
+      jumpTo: async () => await this.jumpTo(selector)
     };
   }
 }
