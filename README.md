@@ -1,4 +1,4 @@
-# Octo
+# Octo <img align="right" src="./octo.png">
 _A standalone wrapper for [Selenium webdriver](https://github.com/SeleniumHQ/selenium) that provides extra utility actions for the driver._
 
 ## Features
