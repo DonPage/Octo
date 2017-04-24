@@ -1,4 +1,4 @@
-import { WebDriver } from 'selenium-webdriver';
+import { WebDriver, WebElement } from 'selenium-webdriver';
 export declare class Octo {
     private greeting;
     private _core;
@@ -6,6 +6,7 @@ export declare class Octo {
     go(url: string): Promise<void>;
     el(selector: string): {
         _selector: string;
+        driverEl: () => Promise<WebElement>;
         click: () => Promise<void>;
         type: (input: string, throttle?: number) => Promise<void>;
         getText: () => Promise<string>;

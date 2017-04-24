@@ -93,6 +93,7 @@ export class Octo {
   private wrapElement(selector: string) {
     return {
       _selector: selector,
+      driverEl: async () => await this.getElement(selector),
       click: async () => await this.click(selector),
       type: async (input: string, throttle = 50) => await this.type(selector, input, throttle),
       getText: async () => await this.getText(selector),
