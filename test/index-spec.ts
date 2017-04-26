@@ -16,9 +16,16 @@ function build(): WebDriver {
 test.describe('Octo: Searching something on duckduckgo', () => {
 
   let driver: any;
+  let passenger: any;
 
   test.before(async () => {
     driver = new Octo(build());
+    passenger = new Octo(build());
+    await passenger.readSignal('getEmail', async (cb: Function) => {
+      await passenger.go('https://10minutemail.com/');
+      const email = await passenger.getAttr('#mailAddress', 'value');
+      return cb(email);
+    });
     return;
   });
 
@@ -50,8 +57,16 @@ test.describe('Octo: Searching something on duckduckgo', () => {
     return;
   });
 
+  test.it('writeSignal', async (done: Function) => {
+    await driver.writeSignal('getEmail', async (email: string) => {
+      await Promise.all([driver.sleep(5000), passenger.quit()]);
+      return done();
+    });
+  });
+
   test.it('Quit', async () => {
     await driver.quit();
+    console.log(`quit`);
     return;
   });
 
