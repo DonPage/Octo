@@ -42,13 +42,13 @@ export class Octo {
   }
 
   public async type(selector: string, input: string, throttle: number = 150): Promise<void> {
-      const el = await this.getElement(selector);
-      const keys = input.split('');
-      for (let key of keys) {
-        await this.sleep(throttle + (Math.random() * (10 * 2) + 2));
-        await el.sendKeys(key);
-      }
-      return;
+    const el = await this.getElement(selector);
+    const keys = input.split('');
+    for (let key of keys) {
+      await this.sleep(throttle + (Math.random() * (10 * 2) + 2));
+      await el.sendKeys(key);
+    }
+    return;
   }
 
   public async getText(selector: string): Promise<string> {
@@ -63,7 +63,7 @@ export class Octo {
   @Retry(3)
   public async jumpTo(selector: string): Promise<void> {
     // tslint:disable-next-line
-    await this._core.executeScript(function(selector: string) {
+    await this._core.executeScript(function (selector: string) {
       // tslint:disable-next-line
       var el: any = document.querySelector(selector);
       el.scrollIntoView(true);
