@@ -92,7 +92,7 @@ export class Octo {
    * @param         {string} signal - signal you want to listen for
    * @param         {Function} action - function you want to execute when signal is called.
    */
-  public readSignal(signal: string, action: Function) {
+  public readSignal(signal: string, action: Function): EventEmitter {
     return this.signals.once(signal, async (...data: Array<any>) => {
       await action(...data);
       return;
@@ -105,7 +105,7 @@ export class Octo {
    * @param         {string} signal - signal you want call.
    * @param         {any} data - any data you want to apply to the signal.
    */
-  public async writeSignal(signal: string, ...data: Array<any>) {
+  public async writeSignal(signal: string, ...data: Array<any>): Promise<void> {
     await this.signals.emit(signal, ...data);
     return;
   }
@@ -127,7 +127,7 @@ export class Octo {
     return;
   }
 
-  private wrapElement(selector: string) {
+  private wrapElement(selector: string): object {
     return {
       _selector: selector,
       driverEl: async () => await this.getElement(selector),
