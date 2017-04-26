@@ -14,7 +14,7 @@ export const Retry = (amount: number = 3, errHandler: Function = handleErr) => {
     descriptor.value = async function() {
       let args = [...arguments];
       try {
-        await originalFunc.apply(this, args);
+        return await originalFunc.apply(this, args);
       } catch (err) {
         // if out of retries, handle err.
         if (amount === 0) return errHandler(err);
