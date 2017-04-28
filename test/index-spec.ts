@@ -64,11 +64,18 @@ test.describe('Octo: Searching something on duckduckgo', () => {
     });
   });
 
-  test.it('openNewTab, switchTab', async () => {
+  test.it('openNewTab', async () => {
     await driver.openNewTab();
     await driver.sleep(1000);
     await driver.go('https://google.com/');
     console.log(driver.tabs);
+    return;
+  });
+
+  test.it('switchTabs', async () => {
+    await driver.switchTabs(0);
+    await driver.go('https://google.com/');
+    await driver.sleep(5000);
     return;
   });
 
