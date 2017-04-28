@@ -5,7 +5,7 @@ import { Retry } from './_util';
 const events = new EventEmitter();
 
 export class Octo {
-  private greeting: string;
+  public tabs: any[];
   private _core: WebDriver;
   private signals: EventEmitter;
 
@@ -13,6 +13,13 @@ export class Octo {
     // take the first driver out of array.
     this._core = drivers[0];
     this.signals = events;
+    // get current tab handle and put it into tabs var.
+    // when the builder starts, it only has one tab, so we can push that in.
+    this.tabs = [];
+    this._core.getAllWindowHandles().then(handles => {
+      const obj = { handle: handles[0], active: true };
+      this.tabs.push(obj);
+    });
   }
 
   public async go(url: string): Promise<void> {
@@ -108,6 +115,28 @@ export class Octo {
   public async writeSignal(signal: string, ...data: Array<any>): Promise<void> {
     await this.signals.emit(signal, ...data);
     return;
+  }
+
+  public async switchTabs(tabIdx: number) {
+    let tabObj = this.tabs[tabIdx];
+    if (!tabObj) throw('tab does not exist');
+    await this._core.switchTo().window(tabObj.handle);
+    // deactivate all tabs.
+    this.tabs.forEach((val, idx) => {
+      if (val.active === true) this.tabs[idx].active = false;
+    });
+    // mark the tab we just switched to as active.
+    tabObj.active = true;
+  }
+
+  public async openNewTab() {
+    await this._core.executeScript(function() { window.open(); });
+    const tabs = await this._core.getAllWindowHandles();
+    // add new tab to tabs array.
+    const obj = { handle: tabs[tabs.length - 1], active: false };
+    this.tabs.push(obj);
+    // switch to newly open tab.
+    return await this.switchTabs(this.tabs.length - 1);
   }
 
   private async getElement(selector: string): Promise<WebElement> {

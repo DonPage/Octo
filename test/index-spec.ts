@@ -59,9 +59,17 @@ test.describe('Octo: Searching something on duckduckgo', () => {
 
   test.it('writeSignal', async (done: Function) => {
     await driver.writeSignal('getEmail', async (email: string) => {
-      await Promise.all([driver.sleep(5000), passenger.quit()]);
+      await Promise.all([driver.sleep(3000), passenger.quit()]);
       return done();
     });
+  });
+
+  test.it('openNewTab, switchTab', async () => {
+    await driver.openNewTab();
+    await driver.sleep(1000);
+    await driver.go('https://google.com/');
+    console.log(driver.tabs);
+    return;
   });
 
   test.it('Quit', async () => {

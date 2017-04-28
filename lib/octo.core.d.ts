@@ -1,22 +1,13 @@
 /// <reference types="node" />
 import { EventEmitter } from 'events';
-import { WebDriver, WebElement } from 'selenium-webdriver';
+import { WebDriver } from 'selenium-webdriver';
 export declare class Octo {
-    private greeting;
+    tabs: any[];
     private _core;
     private signals;
     constructor(...drivers: WebDriver[]);
     go(url: string): Promise<void>;
-    el(selector: string): {
-        _selector: string;
-        driverEl: () => Promise<WebElement>;
-        click: () => Promise<void>;
-        type: (input: string, throttle?: number) => Promise<void>;
-        getText: () => Promise<string>;
-        getAttribute: (attribute: string) => Promise<string>;
-        waitForDisplayed: () => Promise<void>;
-        jumpTo: () => Promise<void>;
-    };
+    el(selector: string): object;
     click(selector: string): Promise<void>;
     quit(): Promise<void>;
     sleep(ms?: number): Promise<void>;
@@ -28,6 +19,8 @@ export declare class Octo {
     waitForDisplayed(selector: string): Promise<void>;
     readSignal(signal: string, action: Function): EventEmitter;
     writeSignal(signal: string, ...data: Array<any>): Promise<void>;
+    switchTabs(tabIdx: number): Promise<void>;
+    openNewTab(): Promise<void>;
     private getElement(selector);
     private waitForVisible(selector, duration?);
     private waitForLocated(selector, duration?);
