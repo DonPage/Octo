@@ -40,6 +40,7 @@ export class Octo {
 
   public async quit(): Promise<void> {
     await this._core.quit();
+    this.signals.removeAllListeners();
     return;
   }
 
