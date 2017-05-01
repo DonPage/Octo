@@ -5,11 +5,10 @@ _A standalone wrapper for [Selenium webdriver](https://github.com/SeleniumHQ/sel
 * Retry handling at the command level.
 * Types with Typescript.
 * Signaling across browsers.
-* Using one command to control a fleet of browsers.
 * Async/Await.
 
 ## Pre-requisites
-It's important to know that Octo **ONLY** wraps the WebDriver portion of selenium-webdriver. This makes it so you can easily plug into any existing test runner or builder of your choosing while reaping the benefits listed above.
+It's important to know that Octo **ONLY** wraps the WebDriver portion of selenium-webdriver. This makes it so you can easily plug into any existing test runner or builder of your choosing.
 ```js
 function build(): WebDriver {
   const build = new selenium.Builder();
