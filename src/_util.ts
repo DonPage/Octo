@@ -22,7 +22,7 @@ export const Retry = (amount: number = 3, errHandler: Function = handleErr) => {
         await wait();
         console.log(`retrying`);
         // if not, call function again.
-        return descriptor.value();
+        return descriptor.value(args);
       }
     };
     return descriptor;
