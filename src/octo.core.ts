@@ -1,11 +1,13 @@
 import { EventEmitter } from 'events';
 import { By, until, WebDriver, WebElement } from 'selenium-webdriver';
 import { Retry } from './_util';
+import * as fs from 'fs';
 
 const events = new EventEmitter();
 
 export class Octo {
   public tabs: any[];
+  public selenium: WebDriver;
   private _core: WebDriver;
   private signals: EventEmitter;
 
@@ -20,6 +22,7 @@ export class Octo {
       const obj = { handle: handles[0], active: true };
       this.tabs.push(obj);
     });
+    this.selenium = this._core;
   }
 
   public async go(url: string): Promise<void> {
@@ -75,6 +78,7 @@ export class Octo {
       // tslint:disable-next-line
       var el: any = document.querySelector(selector);
       el.scrollIntoView(true);
+      // tslint:disable-next-line
     }, selector);
     return;
   }
@@ -82,15 +86,13 @@ export class Octo {
   @Retry(3)
   public async getAttr(selector: string, attribute: string): Promise<string> {
     const el = await this.getElement(selector);
-    console.log(`attr: ${attribute}`);
-    console.log(await el.getAttribute(attribute));
     return await el.getAttribute(attribute);
   }
 
   @Retry(3)
-  public async waitForDisplayed(selector: string): Promise<void> {
-    await this.waitForLocated(selector);
-    await this.waitForVisible(selector);
+  public async waitForDisplayed(selector: string, duration: number = 1000): Promise<void> {
+    // await this.waitForVisible(selector, duration); // TODO: fix this.
+    await this.waitForLocated(selector, duration);
     return;
   }
 
@@ -140,6 +142,21 @@ export class Octo {
     return await this.switchTabs(this.tabs.length - 1);
   }
 
+  public async ss(title: string): Promise<void> {
+    let titleBase = title;
+    const fileType = '.png';
+    const base64 = await this._core.takeScreenshot();
+
+    // if (params) {
+    //   params.map(val => {
+    //     for (let i in val) titleBase += `&${i}=${<object>val[i]}`;
+    //   });
+    // }
+
+    await fs.writeFile(`./screenshots/${titleBase}${fileType}`, base64, 'base64');
+    return;
+  }
+
   private async getElement(selector: string): Promise<WebElement> {
     return await this._core.findElement(By.css(selector));
   }
@@ -157,7 +174,7 @@ export class Octo {
     return;
   }
 
-  private wrapElement(selector: string): object {
+  private wrapElement(selector: string) {
     return {
       _selector: selector,
       driverEl: async () => await this.getElement(selector),
@@ -165,7 +182,7 @@ export class Octo {
       type: async (input: string, throttle = 50) => await this.type(selector, input, throttle),
       getText: async () => await this.getText(selector),
       getAttribute: async (attribute: string) => await this.getAttr(selector, attribute),
-      waitForDisplayed: async () => await this.waitForDisplayed(selector),
+      waitForDisplayed: async (duration = 1000) => await this.waitForDisplayed(selector, duration),
       jumpTo: async () => await this.jumpTo(selector)
     };
   }
