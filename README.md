@@ -1,6 +1,9 @@
 # Octo <img align="right" src="./octo.png" width="120" height="146">
 _A standalone wrapper for [Selenium webdriver](https://github.com/SeleniumHQ/selenium) that provides extra utility actions for the driver._
 
+## Installing
+`npm install octo-driver --save-dev`
+
 ## Features
 * Retry handling at the command level.
 * Types with Typescript.
@@ -8,7 +11,7 @@ _A standalone wrapper for [Selenium webdriver](https://github.com/SeleniumHQ/sel
 * Async/Await.
 
 ## Pre-requisites
-It's important to know that Octo **ONLY** wraps the WebDriver portion of selenium-webdriver. This makes it so you can easily plug into any existing test runner or builder of your choosing.
+It's important to know that Octo **ONLY** wraps the WebDriver instance portion of selenium-webdriver. This makes it so you can easily plug into any existing test runner or builder of your choosing.
 ```js
 function build(): WebDriver {
   const build = new selenium.Builder();

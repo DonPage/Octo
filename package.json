@@ -1,12 +1,16 @@
 {
   "name": "octo-driver",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "Advance standalone wrapper for Selenium-Webdriver.",
   "license": "MIT",
-  "repository": "",
-  "author": "",
+  "repository": "DonPage/Octo",
+  "author": {
+    "name": "Don Page",
+    "email": "don.page.work@gmail.com",
+    "url": "github.com/DonPage"
+  },
   "keywords": [
-    ""
+    "selenium-webdriver"
   ],
   "files": [
     "lib"
