@@ -13,6 +13,8 @@ _A standalone wrapper for [Selenium webdriver](https://github.com/SeleniumHQ/sel
 ## Pre-requisites
 It's important to know that Octo **ONLY** wraps the WebDriver instance portion of selenium-webdriver. This makes it so you can easily plug into any existing test runner or builder of your choosing.
 ```js
+import Octo from 'octo-driver';
+
 function build(): WebDriver {
   const build = new selenium.Builder();
   return build.forBrowser('chrome').build();
