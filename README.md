@@ -44,7 +44,7 @@ export class BasePage extends Octo {
 
   public async load(page: string = this.sitemap.home): Promise<void> {
     await super.go(`${this.baseURL}${page}`);
-    await super.waitForDisplayed(DOM.wrapper);
+    await super.waitForDisplayed(this.DOM.wrapper);
     return;
   }
 
