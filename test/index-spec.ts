@@ -7,10 +7,10 @@ import { WebDriver } from 'selenium-webdriver';
 const expect = chai.expect;
 
 function build(): WebDriver {
-  const build = new selenium.Builder();
-  build.usingServer('http://localhost:4444/wd/hub');
-  build.withCapabilities(selenium.Capabilities.chrome());
-  return build.build();
+  const Build = new selenium.Builder();
+  Build.usingServer('http://localhost:4444/wd/hub');
+  Build.withCapabilities(selenium.Capabilities.chrome());
+  return Build.build();
 }
 
 test.describe('Octo: Searching something on duckduckgo', () => {
@@ -48,12 +48,12 @@ test.describe('Octo: Searching something on duckduckgo', () => {
 
   test.it('Click, El, WaitForDisplayed', async () => {
     await driver.click('div[data-domain="purplerockscissors.com"]');
-    await driver.el('body.loaded').waitForDisplayed();
+    await driver.el('body').waitForDisplayed();
     return;
   });
 
   test.it('JumpTo', async () => {
-    await driver.jumpTo('section.instafeed');
+    await driver.jumpTo('a[href="/process"]');
     return;
   });
 

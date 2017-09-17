@@ -153,7 +153,7 @@ export class Octo {
     //   });
     // }
 
-    await fs.writeFile(`./screenshots/${titleBase}${fileType}`, base64, 'base64');
+    // await fs.writeFile(`./screenshots/${titleBase}${fileType}`, base64, 'base64');
     return;
   }
 
