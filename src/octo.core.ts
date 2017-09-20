@@ -1,5 +1,5 @@
 import { EventEmitter } from 'events';
-import { By, until, WebDriver, WebElement } from 'selenium-webdriver';
+import { By, until, WebDriver, WebElement, WebElementCondition } from 'selenium-webdriver';
 import { Retry } from './_util';
 import * as fs from 'fs';
 
@@ -84,16 +84,22 @@ export class Octo {
   }
 
   @Retry(3)
-  public async getAttr(selector: string, attribute: string): Promise<string> {
+  public async attr(selector: string, attribute: string): Promise<string> {
     const el = await this.getElement(selector);
     return await el.getAttribute(attribute);
   }
 
+  /**
+   * @method          visible
+   * @description     Check to see if something is visible via webdriver.
+   * @param           {string} selector - css selector.
+   * @param           {number} duration - wait duration.
+   */
   @Retry(3)
-  public async waitForDisplayed(selector: string, duration: number = 1000): Promise<void> {
-    // await this.waitForVisible(selector, duration); // TODO: fix this.
-    await this.waitForLocated(selector, duration);
-    return;
+  public async visible(selector: string, duration: number = 1000): Promise<boolean> {
+    const visible = await this.waitForVisible(selector, duration);
+    const located = await this.waitForLocated(selector, duration);
+    return !!(visible && located);
   }
 
   /**
@@ -161,17 +167,14 @@ export class Octo {
     return await this._core.findElement(By.css(selector));
   }
 
-  @Retry(1)
-  private async waitForVisible(selector: string, duration: number = 1000): Promise<void> {
-    const el = await this.getElement(selector);
-    await this._core.wait(until.elementIsVisible(el), duration);
-    return;
+  private async waitForVisible(selector: string, duration: number = 1000): WebElementCondition {
+    return await this._core.wait(
+      until.elementIsVisible(await this._core.findElement(By.css(selector))), duration
+    );
   }
 
-  @Retry(1)
-  private async waitForLocated(selector: string, duration: number = 1000): Promise<void> {
-    await this._core.wait(until.elementLocated(By.css(selector)), duration);
-    return;
+  private async waitForLocated(selector: string, duration: number = 1000): WebElementCondition {
+    return await this._core.wait(until.elementLocated(By.css(selector)), duration);
   }
 
   private wrapElement(selector: string) {
@@ -181,9 +184,9 @@ export class Octo {
       click: async () => await this.click(selector),
       type: async (input: string, throttle = 50) => await this.type(selector, input, throttle),
       getText: async () => await this.getText(selector),
-      getAttribute: async (attribute: string) => await this.getAttr(selector, attribute),
-      waitForDisplayed: async (duration = 1000) => await this.waitForDisplayed(selector, duration),
-      jumpTo: async () => await this.jumpTo(selector)
+      attr: async (attribute: string) => await this.attr(selector, attribute),
+      visible: async (duration = 1000) => await this.visible(selector, duration),
+      jump: async () => await this.jumpTo(selector)
     };
   }
 }
