@@ -62,13 +62,20 @@ export class Octo {
     return;
   }
 
-  public async getText(selector: string): Promise<string> {
+  public async text(selector: string): Promise<string> {
     const el = await this.getElement(selector);
     return await el.getText();
   }
 
   public async pageTitle(): Promise<string> {
     return await this._core.getTitle();
+  }
+
+  public async reload(clearCache: boolean = true): Promise<void> {
+    await this._core.executeScript(function (opt: boolean) {
+      return location.reload(opt);
+    }, clearCache);
+    return;
   }
 
   @Retry(3)
